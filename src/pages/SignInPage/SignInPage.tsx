@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import signalStates from '../../hooks/sinalState';
+import { MyContext } from '../../context/useContext';
 export default function SigInPage() {
   
   const {
     setSignalStateOn,
         setName,
         setEmail,
-        setPassword,
+        setLocal,
         signalStateOn, 
         name, 
         email,
-        password
-  } = signalStates();
+        local
+  } = useContext(MyContext);
   const handleSubmit = () => {
     setSignalStateOn(true);
   };
@@ -40,9 +41,33 @@ export default function SigInPage() {
       <TextInput
         style={styles.input}
         placeholder="Digite sua localização"
-        value={password}
-        onChangeText={setPassword}
+        value={local}
+        onChangeText={setLocal}
       />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          // Alterando o estado de forma reativa
+
+          if(name != '' && email != '' && local !== ''){
+            setSignalStateOn(!signalStateOn);
+            console.log(signalStateOn);
+          }
+          else{
+            Alert.alert(
+              "Título Erro", 
+              "Preencha os campos.", 
+              [
+                { text: "Cancelar", onPress: () => console.log("Cancel Pressed"), style: "cancel" },
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+              ]
+            );
+          }
+        }}
+      >
+        {/* Texto do botão baseado no estado */}
+        <Text style={styles.buttonText}>{'Submit'}</Text>
+      </TouchableOpacity>
     </>
   );
 }

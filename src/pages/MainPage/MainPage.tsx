@@ -1,18 +1,30 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Alert, TouchableOpacity } from 'react-native';
-import batLogo from '../../../assets/bat-logo.png';
-import styles from './style';
-import signalStates from '../../hooks/sinalState';
+import React, { useContext, useState } from 'react';
+import { TouchableOpacity, Text, View } from 'react-native';
+import styles from '../SignalPage/style';
+import SigInPage from '../SignInPage/SignInPage';
+import { MyContext } from '../../context/useContext';
+import { SignalPage } from '../SignalPage/SignalPage';
 
-export function MainPage(){
+export function MainPage() {
+  
   const {
-        setSignalStateOn, 
-        signalStateOn
-  } = signalStates();
+    signalStateOn, 
+    setSignalStateOn, 
+    name, 
+    setName, 
+    email, 
+    setEmail,
+    local, 
+    setlocal
+  } = useContext(MyContext);
 
-    return( 
-      <>
-        <Image source={batLogo} style={styles.image} />
-      </>    
-    )
+  return (
+    <View style={ signalStateOn ? styles.container : styles.container2 }>
+      
+        {/* Condicional renderizado usando o estado */}
+        {signalStateOn ? <SignalPage /> : <SigInPage />}
+      
+      
+    </View>
+  );
 }
